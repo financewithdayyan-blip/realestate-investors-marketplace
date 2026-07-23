@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bluebird Disposition — Off-Market Deals for Real Estate Investors</title>
 <meta name="description" content="Bluebird Disposition connects fix-and-flippers, BRRRR investors, and buy-and-hold landlords with discounted, off-market properties before they hit the open market. Launching soon.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%A6%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/logo-bird-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
@@ -75,10 +75,8 @@
   .center{text-align:center; margin-left:auto; margin-right:auto;}
 
   /* ---------- LOGO / BIRD MARK ---------- */
-  /* Placeholder mark hand-built to evoke the Bluebird hummingbird logo.
-     Swap the <img class="brand-mark"> src for the real logo file once it's added to /assets. */
   .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-serif); font-weight:700; font-size:21px;}
-  .brand-mark{width:30px; height:30px; flex-shrink:0;}
+  .brand-mark{width:34px; height:34px; flex-shrink:0; object-fit:contain;}
   .logo-word1{color:#fff;}
   .logo-word2{position:relative; color:var(--blue-400); font-weight:600; font-style:italic; padding:0 2px;}
   .logo-word2::before{
@@ -184,8 +182,8 @@
   .card-3{top:300px; right:70px; transform:rotate(-3deg); z-index:2;}
 
   .bird-watermark{
-    position:absolute; top:90px; left:20px; width:280px; height:280px;
-    color:#fff; opacity:.97; filter:drop-shadow(0 10px 30px rgba(0,0,0,.4)); z-index:3;
+    position:absolute; top:90px; left:20px; width:280px; height:auto;
+    opacity:.97; filter:drop-shadow(0 10px 30px rgba(0,0,0,.4)); z-index:3;
     transform:rotate(-8deg);
   }
 
@@ -319,7 +317,7 @@
 <header>
   <nav>
     <a href="#top" class="logo">
-      <svg class="brand-mark" viewBox="0 0 100 100" fill="var(--blue-400)"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+      <img class="brand-mark" src="assets/logo-bird-icon.png" alt="Bluebird Disposition hummingbird mark">
       <span class="logo-word1">Bluebird</span><span class="logo-word2">Disposition</span>
     </a>
     <ul class="nav-links">
@@ -362,7 +360,7 @@
       </div>
 
       <div class="hero-visual">
-        <svg class="bird-watermark" viewBox="0 0 100 100" fill="#fff"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+        <img class="bird-watermark" src="assets/logo-bird-white.png" alt="">
 
         <div class="deal-card card-1">
           <span class="tag new">New Listing</span>
@@ -581,7 +579,7 @@
   <div class="container">
     <div class="footer-top">
       <a href="#top" class="logo">
-        <svg class="brand-mark" viewBox="0 0 100 100" fill="var(--blue-400)"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+        <img class="brand-mark" src="assets/logo-bird-icon.png" alt="Bluebird Disposition hummingbird mark">
         <span class="logo-word1">Bluebird</span><span class="logo-word2">Disposition</span>
       </a>
       <a href="#signup" class="btn btn-primary">Get Early Access</a>
