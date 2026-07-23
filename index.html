@@ -212,7 +212,13 @@
   .msg{max-width:82%; padding:9px 12px; border-radius:12px; font-size:13.5px; line-height:1.45;}
   .msg.bot{background:#fff; border:1px solid var(--border); align-self:flex-start; border-bottom-left-radius:3px;}
   .msg.user{background:var(--blue-500); color:#fff; align-self:flex-end; border-bottom-right-radius:3px;}
+  .msg.typing{display:flex; gap:4px; align-items:center; padding:11px 14px;}
+  .typing-dot{width:6px; height:6px; border-radius:50%; background:var(--text-soft); animation:typingBounce 1s infinite ease-in-out;}
+  .typing-dot:nth-child(2){animation-delay:.15s;}
+  .typing-dot:nth-child(3){animation-delay:.3s;}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0); opacity:.4;} 30%{transform:translateY(-4px); opacity:1;}}
   .chat-quick-replies{display:flex; flex-wrap:wrap; gap:6px; padding:10px 14px 0; background:var(--bg);}
+  .chat-quick-replies:empty{display:none; padding:0;}
   .chat-chip{
     border:1.5px solid var(--border); background:#fff; border-radius:999px; padding:6px 12px;
     font-size:12px; cursor:pointer; color:var(--text-dark); font-family:inherit;
@@ -230,11 +236,21 @@
   }
   .chat-input-row button:hover{background:var(--amber-400);}
   .chat-fab{
-    width:52px; height:52px; border-radius:50%; background:var(--amber-500); color:#241400;
+    position:relative; width:52px; height:52px; border-radius:50%; background:var(--amber-500); color:#241400;
     display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(245,166,35,.4);
     border:none; cursor:pointer; font-size:20px;
   }
   .chat-fab:hover{background:var(--amber-400);}
+  .fab-badge{
+    position:absolute; top:-2px; right:-2px; width:15px; height:15px; border-radius:50%;
+    background:#ef4444; border:2px solid var(--bg); animation:badgePulse 1.8s infinite;
+  }
+  .fab-badge.hidden{display:none;}
+  @keyframes badgePulse{
+    0%{box-shadow:0 0 0 0 rgba(239,68,68,.5);}
+    70%{box-shadow:0 0 0 7px rgba(239,68,68,0);}
+    100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}
+  }
 
   /* ---------- AUDIENCE ---------- */
   .audience-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
@@ -658,7 +674,7 @@
 </footer>
 
 <!-- CHAT WIDGET -->
-<div class="chat-widget" id="chatWidget">
+<div class="chat-widget closed" id="chatWidget">
   <div class="chat-panel" id="chatPanel">
     <div class="chat-panel-header">
       <img src="assets/logo-bird-icon.png" alt="">
@@ -669,17 +685,16 @@
       <button class="close-x" id="chatClose" aria-label="Close chat">✕</button>
     </div>
     <div class="chat-messages" id="chatMessages"></div>
-    <div class="chat-quick-replies" id="chatQuickReplies">
-      <button type="button" class="chat-chip" data-q="What deal types do you offer?">Deal types?</button>
-      <button type="button" class="chat-chip" data-q="Is it free to join?">Is it free?</button>
-      <button type="button" class="chat-chip" data-q="When do you launch?">Launch date?</button>
-    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies"></div>
     <form class="chat-input-row" id="chatForm">
       <input type="text" id="chatInput" placeholder="Ask about cash, subject-to, seller finance…" autocomplete="off">
       <button type="submit" aria-label="Send message">➤</button>
     </form>
   </div>
-  <button class="chat-fab" id="chatFab" aria-label="Open chat">💬</button>
+  <button class="chat-fab" id="chatFab" aria-label="Open chat">
+    💬
+    <span class="fab-badge hidden" id="fabBadge"></span>
+  </button>
 </div>
 
 <script>
@@ -709,12 +724,58 @@
   }, {threshold:.15});
   revealEls.forEach(function(el){ io.observe(el); });
 
-  // Chat widget — rule-based assistant (client-side only, no backend yet)
+  // Chat widget — rule-based assistant (client-side only, no backend yet).
+  // Starts closed; only the FAB (with a small badge) shows until the visitor
+  // clicks it themselves.
   var chatWidget = document.getElementById('chatWidget');
   var chatMessages = document.getElementById('chatMessages');
+  var chatQuickReplies = document.getElementById('chatQuickReplies');
   var chatForm = document.getElementById('chatForm');
   var chatInput = document.getElementById('chatInput');
+  var fabBadge = document.getElementById('fabBadge');
   var chatGreeted = false;
+
+  var DEFAULT_CHIPS = ["What deal types do you offer?", "Is it free to join?", "When do you launch?"];
+
+  // TODO: this is a simple keyword matcher. Swap for a real support/AI
+  // backend once one exists — this just keeps the widget useful pre-launch.
+  var CHAT_KB = [
+    { test:/subject.?to|sub.?2/, reply:"Yes — we do Subject-To deals. You take over the seller's existing mortgage payments and terms, often with little money down while keeping their rate in place.",
+      chips:["What about seller finance?", "What about cash deals?", "What about novation?"] },
+    { test:/seller ?financ/, reply:"We do Seller Finance deals too — the seller acts as the bank, so you negotiate your own rate, term, and down payment directly with them.",
+      chips:["What about subject-to?", "What about novation?", "Is it free to join?"] },
+    { test:/novation/, reply:"Novation deals are part of the mix as well — a contract structure that lets us restructure terms mid-deal so both the seller and the investor land on terms that work.",
+      chips:["What about cash deals?", "What about subject-to?"] },
+    { test:/cash/, reply:"Yes, plenty of our deals are straightforward cash purchases — priced at a discount, with a fast, clean close and no financing contingencies.",
+      chips:["What about subject-to?", "What about seller finance?", "What markets do you cover?"] },
+    { test:/deal type|deal structure|kind of deal|what deals|\bstructure/, reply:"We work all kinds of deal structures — cash, Subject-To, Seller Finance, and Novation — whatever fits the seller's situation and your strategy best.",
+      chips:["Tell me about cash deals", "Tell me about subject-to", "Tell me about seller finance", "Tell me about novation"] },
+    { test:/free|cost|price|fee/, reply:"Joining the waitlist is completely free, with no obligation to buy anything.",
+      chips:["When do you launch?", "What deal types do you offer?"] },
+    { test:/market|location|where|city|state/, reply:"We're rolling out market by market. Tell us your target market on the waitlist form and we'll prioritize it.",
+      chips:["Is it free to join?", "When do you launch?"] },
+    { test:/launch|when/, reply:"We're finalizing our first markets now — join the waitlist and you'll be the first to know the exact date, plus get early access.",
+      chips:["Is it free to join?", "What markets do you cover?"] },
+    { test:/contact|email|phone|reach|talk to (a )?human/, reply:"You can reach our team directly at hello@bluebirddisposition.com.",
+      chips:[] },
+    { test:/brrrr|flip|rental|long.?term|hold/, reply:"We source deals for every strategy — fix & flip, BRRRR, rental portfolios, and long-term holds. Tell us which one you're focused on in the waitlist form.",
+      chips:["What deal types do you offer?", "Is it free to join?"] },
+    { test:/^\s*(hi|hello|hey|yo|sup)\b/, reply:"Hey there! 👋 Ask me about deal types, pricing, markets, or launch timing — or tap a suggestion below.",
+      chips: DEFAULT_CHIPS },
+    { test:/thank/, reply:"Anytime! If anything else comes up, I'm right here.", chips:[] },
+    { test:/bye|goodbye/, reply:"Take care! Don't forget to join the waitlist below before you go. 👋", chips:[] }
+  ];
+
+  function matchReply(raw){
+    var t = raw.toLowerCase();
+    for(var i = 0; i < CHAT_KB.length; i++){
+      if(CHAT_KB[i].test.test(t)) return CHAT_KB[i];
+    }
+    return {
+      reply: "Good question! For a detailed answer, join our waitlist below and our team will follow up directly — or ask me about cash deals, subject-to, seller finance, or novation.",
+      chips: DEFAULT_CHIPS
+    };
+  }
 
   function addChatMessage(text, who){
     var el = document.createElement('div');
@@ -724,58 +785,58 @@
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  function openChat(){
-    chatWidget.classList.remove('closed');
-    if(!chatGreeted){
-      addChatMessage("👋 Hi there! Have questions about our deals — cash, subject-to, seller finance, or novation? Ask me anything, or tap a quick question below.", 'bot');
-      chatGreeted = true;
-    }
+  function showTyping(){
+    var el = document.createElement('div');
+    el.className = 'msg bot typing';
+    el.id = 'typingIndicator';
+    el.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+    chatMessages.appendChild(el);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // TODO: botReply is a simple keyword matcher. Swap for a real support/AI
-  // backend once one exists — this just keeps the widget useful pre-launch.
-  function botReply(raw){
-    var t = raw.toLowerCase();
-    if(/subject.?to|sub.?2/.test(t)){
-      return "Yes — we do Subject-To deals. You take over the seller's existing mortgage payments and terms, often with little money down while keeping their rate in place.";
-    }
-    if(/seller ?financ/.test(t)){
-      return "We do Seller Finance deals too — the seller acts as the bank, so you negotiate your own rate, term, and down payment directly with them.";
-    }
-    if(/novation/.test(t)){
-      return "Novation deals are part of the mix as well — a contract structure that lets us restructure terms mid-deal so both the seller and the investor land on terms that work.";
-    }
-    if(/cash/.test(t)){
-      return "Yes, plenty of our deals are straightforward cash purchases — priced at a discount, with a fast, clean close and no financing contingencies.";
-    }
-    if(/deal type|deal structure|kind of deal|what deals|structure/.test(t)){
-      return "We work all kinds of deal structures — cash, Subject-To, Seller Finance, and Novation — whatever fits the seller's situation and your strategy best. Check the \"Deal Structures\" section above for details.";
-    }
-    if(/free|cost|price|fee/.test(t)){
-      return "Joining the waitlist is completely free, with no obligation to buy anything.";
-    }
-    if(/market|location|where|city|state/.test(t)){
-      return "We're rolling out market by market. Tell us your target market on the waitlist form and we'll prioritize it.";
-    }
-    if(/launch|when/.test(t)){
-      return "We're finalizing our first markets now — join the waitlist and you'll be the first to know the exact date, plus get early access.";
-    }
-    if(/contact|email|phone|reach|talk to (a )?human/.test(t)){
-      return "You can reach our team directly at hello@bluebirddisposition.com.";
-    }
-    if(/brrrr|flip|rental|long.?term|hold/.test(t)){
-      return "We source deals for every strategy — fix & flip, BRRRR, rental portfolios, and long-term holds. Tell us which one you're focused on in the waitlist form.";
-    }
-    return "Good question! For a detailed answer, join our waitlist below and our team will follow up directly — or ask me about cash deals, subject-to, seller finance, or novation.";
+  function hideTyping(){
+    var el = document.getElementById('typingIndicator');
+    if(el) el.remove();
+  }
+
+  function renderChips(chips){
+    chatQuickReplies.innerHTML = '';
+    chips.forEach(function(q){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chat-chip';
+      btn.textContent = q;
+      btn.addEventListener('click', function(){ sendChat(q); });
+      chatQuickReplies.appendChild(btn);
+    });
   }
 
   function sendChat(text){
-    text = text.trim();
+    text = (text || '').trim();
     if(!text) return;
     addChatMessage(text, 'user');
+    renderChips([]);
+    showTyping();
     window.setTimeout(function(){
-      addChatMessage(botReply(text), 'bot');
-    }, 450);
+      hideTyping();
+      var match = matchReply(text);
+      addChatMessage(match.reply, 'bot');
+      renderChips(match.chips);
+    }, 700 + Math.random() * 400);
+  }
+
+  function openChat(){
+    chatWidget.classList.remove('closed');
+    fabBadge.classList.add('hidden');
+    if(!chatGreeted){
+      chatGreeted = true;
+      showTyping();
+      window.setTimeout(function(){
+        hideTyping();
+        addChatMessage("👋 Hi there! Have questions about our deals — cash, subject-to, seller finance, or novation? Ask me anything, or tap a suggestion below.", 'bot');
+        renderChips(DEFAULT_CHIPS);
+      }, 550);
+    }
   }
 
   document.getElementById('chatFab').addEventListener('click', function(){
@@ -790,13 +851,10 @@
     sendChat(chatInput.value);
     chatInput.value = '';
   });
-  document.querySelectorAll('.chat-chip').forEach(function(chip){
-    chip.addEventListener('click', function(){
-      sendChat(chip.getAttribute('data-q'));
-    });
-  });
 
-  openChat();
+  // Give the badge a moment before it starts pulsing, so it doesn't feel
+  // like the widget is shouting the instant the page loads.
+  window.setTimeout(function(){ fabBadge.classList.remove('hidden'); }, 2500);
 
   // Form validation + submit
   // Supabase "anon" key is meant to be public — the waitlist_signups table's
