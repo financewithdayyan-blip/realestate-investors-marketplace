@@ -799,7 +799,11 @@
   openChat();
 
   // Form validation + submit
-  var WAITLIST_ENDPOINT = 'https://script.google.com/a/macros/bluebirdacquisition.com/s/AKfycbyCyOCzFzS1QlkTDMz398ZngP7D6FoGYEDJHXX5pWDGASlYergVW1njidp68TtegIVf/exec';
+  // Supabase "anon" key is meant to be public — the waitlist_signups table's
+  // Row Level Security policy only allows inserts from this role, not reads.
+  var SUPABASE_URL = 'https://kcechkmkitenfrnhdzww.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjZWNoa21raXRlbmZybmhkend3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4MDM5ODcsImV4cCI6MjEwMDM3OTk4N30.9J_HiuaIqHrUuzBj5Iw-ga5KhwR7VjRLUGvWf7CyJqI';
+  var WAITLIST_ENDPOINT = SUPABASE_URL + '/rest/v1/waitlist_signups';
 
   var form = document.getElementById('waitlistForm');
   var successBox = document.getElementById('successBox');
@@ -835,21 +839,22 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting…';
 
-    var body = new URLSearchParams({
-      name: name,
-      phone: phone,
-      email: email,
-      investorType: form.investorType.value
-    });
-
-    // Google Apps Script web apps don't send CORS headers, so the response is
-    // opaque (mode: 'no-cors') — we can't read it back, only confirm the
-    // request left the browser without a network error.
     fetch(WAITLIST_ENDPOINT, {
       method: 'POST',
-      mode: 'no-cors',
-      body: body
-    }).then(function(){
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        email: email,
+        investor_type: form.investorType.value
+      })
+    }).then(function(res){
+      if(!res.ok){ throw new Error('Request failed with status ' + res.status); }
       showSuccess(name);
     }).catch(function(){
       submitBtn.disabled = false;
