@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bluebird Disposition — Off-Market Deals for Real Estate Investors</title>
+<meta name="description" content="Bluebird Disposition connects fix-and-flippers, BRRRR investors, and buy-and-hold landlords with discounted, off-market properties before they hit the open market. Launching soon.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%A6%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#081120;
+    --navy-900:#0b1830;
+    --navy-800:#122544;
+    --navy-700:#1a3560;
+    --blue-500:#3b82f6;
+    --blue-400:#60a5fa;
+    --sky-300:#93c5fd;
+    --amber-500:#f5a623;
+    --amber-400:#ffbb47;
+    --bg:#f6f8fb;
+    --surface:#ffffff;
+    --text-dark:#0f1b2d;
+    --text-muted:#5b6b81;
+    --text-soft:#8695ab;
+    --border:#e6eaf1;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --shadow-sm:0 1px 2px rgba(10,20,40,.06);
+    --shadow-md:0 8px 24px rgba(10,20,40,.08);
+    --shadow-lg:0 20px 50px rgba(10,20,40,.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color:var(--text-dark);
+    background:var(--bg);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .heading-font{font-family:'Manrope','Inter',sans-serif;}
+  .container{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  section{padding:96px 0;}
+  @media (max-width:640px){ section{padding:64px 0;} }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--blue-500);
+    background:rgba(59,130,246,.1);
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:20px;
+  }
+  h1,h2,h3{font-family:'Manrope','Inter',sans-serif; font-weight:800; letter-spacing:-.02em; color:var(--text-dark);}
+  h2{font-size:clamp(28px,4vw,40px); margin-bottom:14px;}
+  .section-sub{color:var(--text-muted); font-size:17px; max-width:640px; margin-bottom:56px;}
+  .center{text-align:center; margin-left:auto; margin-right:auto;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(246,248,251,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:1180px; margin:0 auto;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; font-family:'Manrope',sans-serif;}
+  .logo .mark{
+    width:34px; height:34px; border-radius:9px;
+    background:linear-gradient(135deg, var(--blue-500), var(--navy-800));
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:var(--shadow-sm);
+  }
+  .nav-links{display:flex; gap:32px; font-size:15px; font-weight:500; color:var(--text-muted);}
+  .nav-links a:hover{color:var(--text-dark);}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:12px 22px; border-radius:999px; font-weight:700; font-size:15px;
+    cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--amber-500); color:#241400; box-shadow:0 6px 18px rgba(245,166,35,.35);}
+  .btn-primary:hover{background:var(--amber-400); transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--text-dark); border:1.5px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--blue-500); color:var(--blue-500);}
+  .btn-block{width:100%;}
+  .nav-cta{display:none;}
+  @media (min-width:860px){ .nav-cta{display:inline-flex;} }
+  .nav-links{display:none;}
+  @media (min-width:860px){ .nav-links{display:flex;} }
+  .menu-btn{display:inline-flex; background:none; border:1.5px solid var(--border); border-radius:8px; padding:8px 10px;}
+  @media (min-width:860px){ .menu-btn{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(1200px 500px at 15% -10%, rgba(59,130,246,.18), transparent 60%),
+               radial-gradient(900px 500px at 90% 10%, rgba(245,166,35,.12), transparent 55%),
+               linear-gradient(180deg, var(--navy-950), var(--navy-900) 60%, var(--navy-800));
+    color:#fff;
+    padding:120px 0 100px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:26px 26px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.6), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1; max-width:760px;}
+  .hero .eyebrow{background:rgba(255,255,255,.1); color:var(--amber-400);}
+  .hero h1{color:#fff; font-size:clamp(34px,5.4vw,58px); line-height:1.08; margin-bottom:22px;}
+  .hero h1 span{color:var(--amber-400);}
+  .hero p.lead{color:#c7d4e6; font-size:18px; max-width:600px; margin-bottom:34px;}
+  .hero-actions{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:28px;}
+  .hero-trust{display:flex; align-items:center; gap:10px; color:#93a6c2; font-size:14px;}
+  .hero-trust svg{flex-shrink:0;}
+
+  .hero-stats{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:1px; background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:var(--radius-md);
+    margin-top:56px; overflow:hidden;
+    max-width:640px;
+  }
+  .hero-stats div{background:rgba(255,255,255,.03); padding:20px 18px;}
+  .hero-stats strong{display:block; font-size:22px; font-family:'Manrope',sans-serif; color:#fff;}
+  .hero-stats span{font-size:13px; color:#93a6c2;}
+
+  /* ---------- AUDIENCE ---------- */
+  .audience-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+  }
+  @media (max-width:900px){ .audience-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .audience-grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    padding:28px 24px;
+    box-shadow:var(--shadow-sm);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow-md);}
+  .card .icon{
+    width:46px; height:46px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(59,130,246,.15), rgba(59,130,246,.05));
+    color:var(--blue-500); margin-bottom:16px; font-size:22px;
+  }
+  .card h3{font-size:18px; margin-bottom:8px;}
+  .card p{color:var(--text-muted); font-size:14.5px;}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:28px; position:relative;
+  }
+  @media (max-width:900px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .steps{grid-template-columns:1fr;} }
+  .step .num{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--navy-900); color:#fff; font-weight:800; font-family:'Manrope',sans-serif;
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-size:15px;
+  }
+  .step h3{font-size:17px; margin-bottom:8px;}
+  .step p{color:var(--text-muted); font-size:14.5px;}
+
+  .how-section{background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+
+  /* ---------- WHY US ---------- */
+  .features{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:20px;
+  }
+  @media (max-width:700px){ .features{grid-template-columns:1fr;} }
+  .feature{
+    display:flex; gap:16px; padding:22px; border-radius:var(--radius-md);
+    background:var(--surface); border:1px solid var(--border);
+  }
+  .feature .icon{
+    width:42px; height:42px; flex-shrink:0; border-radius:10px;
+    background:rgba(245,166,35,.12); color:var(--amber-500);
+    display:flex; align-items:center; justify-content:center; font-size:19px;
+  }
+  .feature h3{font-size:16.5px; margin-bottom:5px;}
+  .feature p{color:var(--text-muted); font-size:14px;}
+
+  /* ---------- FORM ---------- */
+  .signup{
+    background:linear-gradient(160deg, var(--navy-900), var(--navy-800));
+    color:#fff; position:relative; overflow:hidden;
+  }
+  .signup::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(700px 400px at 85% 20%, rgba(59,130,246,.25), transparent 60%);
+    pointer-events:none;
+  }
+  .signup-wrap{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center;
+  }
+  @media (max-width:900px){ .signup-wrap{grid-template-columns:1fr;} }
+  .signup h2{color:#fff;}
+  .signup p.section-sub{color:#b9c6dc; margin-bottom:30px;}
+  .signup-points{display:flex; flex-direction:column; gap:14px; margin-top:8px;}
+  .signup-points li{display:flex; gap:10px; align-items:flex-start; color:#d7e0ef; font-size:14.5px;}
+  .signup-points svg{flex-shrink:0; margin-top:2px; color:var(--amber-400);}
+
+  .form-card{
+    background:#fff; color:var(--text-dark);
+    border-radius:var(--radius-lg);
+    padding:32px; box-shadow:var(--shadow-lg);
+  }
+  .form-card h3{font-size:20px; margin-bottom:6px;}
+  .form-card .form-sub{color:var(--text-muted); font-size:14px; margin-bottom:22px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-dark);}
+  .field input, .field select{
+    width:100%; padding:12px 14px; border-radius:var(--radius-sm);
+    border:1.5px solid var(--border); font-size:15px; font-family:inherit;
+    background:#fbfcfe; color:var(--text-dark);
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field select:focus{
+    outline:none; border-color:var(--blue-500); box-shadow:0 0 0 3px rgba(59,130,246,.15); background:#fff;
+  }
+  .field .error-msg{display:none; color:#dc2626; font-size:12.5px; margin-top:5px;}
+  .field.invalid input, .field.invalid select{border-color:#dc2626;}
+  .field.invalid .error-msg{display:block;}
+  .privacy-note{font-size:12.5px; color:var(--text-soft); margin-top:14px; text-align:center;}
+  .success-box{display:none; text-align:center; padding:20px 6px;}
+  .success-box .check{
+    width:56px; height:56px; border-radius:50%; background:rgba(34,197,94,.12); color:#16a34a;
+    display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:26px;
+  }
+  .success-box h3{margin-bottom:6px;}
+  .success-box p{color:var(--text-muted); font-size:14.5px;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px;}
+  .faq-item{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:0; overflow:hidden;
+  }
+  .faq-q{
+    width:100%; text-align:left; padding:20px 22px; background:none; border:none; cursor:pointer;
+    font-size:15.5px; font-weight:600; display:flex; justify-content:space-between; align-items:center;
+    color:var(--text-dark); font-family:inherit;
+  }
+  .faq-q .plus{transition:transform .2s ease; color:var(--blue-500); font-size:20px;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{padding:0 22px 20px; color:var(--text-muted); font-size:14.5px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy-950); color:#93a6c2; padding:48px 0 28px;}
+  .footer-top{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+    padding-bottom:28px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:24px;
+  }
+  .footer-top .logo{color:#fff;}
+  footer .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px;}
+  footer a:hover{color:#fff;}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#top" class="logo">
+      <span class="mark">🐦</span> Bluebird Disposition
+    </a>
+    <ul class="nav-links">
+      <li><a href="#audience">Who It's For</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#signup" class="btn btn-primary nav-cta">Get Early Access</a>
+    <button class="menu-btn" aria-label="menu" onclick="document.getElementById('mobileNav').classList.toggle('show')">☰</button>
+  </nav>
+  <div id="mobileNav" style="display:none;" class="container">
+    <ul style="display:flex; flex-direction:column; gap:14px; padding:16px 0; font-weight:500;">
+      <li><a href="#audience">Who It's For</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#signup" class="btn btn-primary btn-block">Get Early Access</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="eyebrow">● Launching Soon — Founding Investor Access Open</div>
+      <h1>Off-market deals, delivered straight to <span>serious investors.</span></h1>
+      <p class="lead">Bluebird Disposition connects fix-and-flippers, BRRRR investors, and buy-and-hold landlords with discounted properties — before they ever hit the open market.</p>
+      <div class="hero-actions">
+        <a href="#signup" class="btn btn-primary">Reserve My Spot →</a>
+        <a href="#how" class="btn btn-ghost" style="border-color:rgba(255,255,255,.25); color:#fff;">See How It Works</a>
+      </div>
+      <div class="hero-trust">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        No cost to join. No obligation to buy. Just first look at real deals.
+      </div>
+
+      <div class="hero-stats">
+        <div><strong>Fix &amp; Flip</strong><span>Priced for your margin</span></div>
+        <div><strong>BRRRR</strong><span>ARV &amp; rent math included</span></div>
+        <div><strong>Buy &amp; Hold</strong><span>Cash-flow ready rentals</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section id="audience">
+    <div class="container">
+      <div class="eyebrow" style="color:var(--blue-500);">Built for every strategy</div>
+      <h2>Whatever your investing playbook, we've got deals for it.</h2>
+      <p class="section-sub">From quick flips to lifelong portfolios — Bluebird Disposition sources properties that pencil out for how you actually invest.</p>
+
+      <div class="audience-grid">
+        <div class="card reveal">
+          <div class="icon">🔨</div>
+          <h3>Fix &amp; Flip Investors</h3>
+          <p>Get in, renovate, and sell for profit. Deals are priced with your rehab budget and margin in mind.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🔁</div>
+          <h3>BRRRR Investors</h3>
+          <p>Buy, rehab, rent, refinance, repeat — sourced with ARV and rent comps already considered.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🏘️</div>
+          <h3>Rental Portfolio Builders</h3>
+          <p>Add cash-flowing rentals to your portfolio without competing in retail bidding wars.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🏦</div>
+          <h3>Long-Term Holders</h3>
+          <p>Buy and hold for equity and appreciation — get in before properties are marked up for retail buyers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="how-section">
+    <div class="container">
+      <div class="eyebrow" style="color:var(--blue-500);">The process</div>
+      <h2>How Bluebird Disposition works</h2>
+      <p class="section-sub">Simple, fast, and built around getting you to a closing table — not a bidding war.</p>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">1</div>
+          <h3>Join the waitlist</h3>
+          <p>Tell us your market and how you invest — flip, BRRRR, rental, or long-term hold.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">2</div>
+          <h3>Get matched</h3>
+          <p>We surface off-market and pre-market deals that fit your buy box.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">3</div>
+          <h3>Review the numbers</h3>
+          <p>Every deal comes with comps, repair estimates, and ARV — no guesswork.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">4</div>
+          <h3>Close with confidence</h3>
+          <p>Connect directly with sellers and close on terms that work for you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why">
+    <div class="container">
+      <div class="eyebrow" style="color:var(--blue-500);">Why Bluebird</div>
+      <h2>Deal flow built for investors, not retail buyers</h2>
+      <p class="section-sub">We cut out the noise of the MLS and bring you properties sourced directly from motivated sellers and wholesalers.</p>
+
+      <div class="features">
+        <div class="feature reveal">
+          <div class="icon">💲</div>
+          <div><h3>Below-market pricing</h3><p>Deals sourced directly from motivated sellers — not marked-up retail listings.</p></div>
+        </div>
+        <div class="feature reveal">
+          <div class="icon">🚫</div>
+          <div><h3>No bidding wars</h3><p>Get first access before properties ever go public.</p></div>
+        </div>
+        <div class="feature reveal">
+          <div class="icon">📊</div>
+          <div><h3>Real numbers, no guesswork</h3><p>ARV, repair estimates, and comps included with every deal.</p></div>
+        </div>
+        <div class="feature reveal">
+          <div class="icon">🎯</div>
+          <div><h3>Matched to your strategy</h3><p>Flip it, BRRRR it, rent it, or hold it — deals filtered to fit your buy box.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNUP -->
+  <section id="signup" class="signup">
+    <div class="container signup-wrap">
+      <div>
+        <div class="eyebrow">Founding investor access</div>
+        <h2>Be first in line when we launch</h2>
+        <p class="section-sub">Founding members get free early access and first pick of deals in their market — before we open up to the public.</p>
+        <ul class="signup-points">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Free to join, always</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> First look at deals in your market</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> No spam — we respect your inbox</li>
+        </ul>
+      </div>
+
+      <div class="form-card">
+        <form id="waitlistForm" novalidate>
+          <h3>Reserve your spot</h3>
+          <p class="form-sub">Takes less than 30 seconds.</p>
+
+          <div class="field" data-field="name">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" autocomplete="name">
+            <div class="error-msg">Please enter your name.</div>
+          </div>
+
+          <div class="field" data-field="phone">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel">
+            <div class="error-msg">Please enter a valid phone number.</div>
+          </div>
+
+          <div class="field" data-field="email">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="jane@email.com" autocomplete="email">
+            <div class="error-msg">Please enter a valid email address.</div>
+          </div>
+
+          <div class="field" data-field="investorType">
+            <label for="investorType">I'm mainly interested in</label>
+            <select id="investorType" name="investorType">
+              <option value="">Select one</option>
+              <option value="fix-flip">Fix &amp; Flip</option>
+              <option value="brrrr">BRRRR</option>
+              <option value="rental">Rental Portfolio</option>
+              <option value="long-term">Long-Term Hold</option>
+              <option value="other">Other / Not sure yet</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Join the Waitlist</button>
+          <p class="privacy-note">We respect your inbox. No spam, ever.</p>
+        </form>
+
+        <div class="success-box" id="successBox">
+          <div class="check">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3>You're on the list!</h3>
+          <p>Thanks for joining, <span id="successName">there</span>. We'll email you the moment Bluebird Disposition launches in your market.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="eyebrow center" style="color:var(--blue-500); display:flex; justify-content:center;">Questions</div>
+      <h2 class="center">Frequently asked questions</h2>
+      <p class="section-sub center">Everything you want to know before you sign up.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q">Is there a cost to join the waitlist? <span class="plus">+</span></button>
+          <div class="faq-a"><p>No — joining the waitlist is completely free, with no obligation to buy anything, ever.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What kind of deals will I see? <span class="plus">+</span></button>
+          <div class="faq-a"><p>Off-market and pre-market properties sourced directly from motivated sellers and wholesalers — priced below retail, with comps, repair estimates, and ARV included.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What markets do you cover? <span class="plus">+</span></button>
+          <div class="faq-a"><p>We're rolling out market by market as we launch. Tell us your target market on the waitlist form and we'll prioritize accordingly.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">When exactly do you launch? <span class="plus">+</span></button>
+          <div class="faq-a"><p>We're finalizing our first markets now. Join the waitlist and you'll be the first to know the exact date — plus get early access before the public launch.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <a href="#top" class="logo">🐦 Bluebird Disposition</a>
+      <a href="#signup" class="btn btn-primary">Get Early Access</a>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Bluebird Disposition. All rights reserved.</span>
+      <span><a href="mailto:hello@bluebirddisposition.com">hello@bluebirddisposition.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i){
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.15});
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  // Form validation + submit
+  var form = document.getElementById('waitlistForm');
+  var successBox = document.getElementById('successBox');
+
+  function setError(fieldName, show){
+    var field = form.querySelector('[data-field="'+fieldName+'"]');
+    field.classList.toggle('invalid', show);
+  }
+
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function isValidPhone(v){ return v.replace(/\D/g,'').length >= 10; }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var email = form.email.value.trim();
+
+    var nameOk = name.length > 1;
+    var phoneOk = isValidPhone(phone);
+    var emailOk = isValidEmail(email);
+
+    setError('name', !nameOk);
+    setError('phone', !phoneOk);
+    setError('email', !emailOk);
+
+    if(!nameOk || !phoneOk || !emailOk) return;
+
+    // TODO: replace this block with a real submission once a backend/endpoint exists, e.g.:
+    // fetch('https://your-endpoint.example.com/waitlist', {
+    //   method: 'POST',
+    //   headers: {'Content-Type':'application/json'},
+    //   body: JSON.stringify({name, phone, email, investorType: form.investorType.value})
+    // });
+
+    document.getElementById('successName').textContent = name.split(' ')[0];
+    form.style.display = 'none';
+    successBox.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
