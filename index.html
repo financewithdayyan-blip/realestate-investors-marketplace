@@ -8,15 +8,15 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy-950:#081120;
     --navy-900:#0b1830;
     --navy-800:#122544;
     --navy-700:#1a3560;
-    --blue-500:#3b82f6;
-    --blue-400:#60a5fa;
+    --blue-500:#2f7cf6;
+    --blue-400:#5b9bf8;
     --sky-300:#93c5fd;
     --amber-500:#f5a623;
     --amber-400:#ffbb47;
@@ -32,11 +32,13 @@
     --shadow-sm:0 1px 2px rgba(10,20,40,.06);
     --shadow-md:0 8px 24px rgba(10,20,40,.08);
     --shadow-lg:0 20px 50px rgba(10,20,40,.14);
+    --font-serif:'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-sans:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family:var(--font-sans);
     color:var(--text-dark);
     background:var(--bg);
     line-height:1.5;
@@ -45,7 +47,6 @@
   img,svg{display:block; max-width:100%;}
   a{color:inherit; text-decoration:none;}
   ul{list-style:none;}
-  .heading-font{font-family:'Manrope','Inter',sans-serif;}
   .container{
     width:100%;
     max-width:1180px;
@@ -61,168 +62,200 @@
     gap:8px;
     font-size:13px;
     font-weight:700;
-    letter-spacing:.06em;
+    letter-spacing:.08em;
     text-transform:uppercase;
-    color:var(--blue-500);
-    background:rgba(59,130,246,.1);
-    padding:6px 14px;
-    border-radius:999px;
-    margin-bottom:20px;
+    color:var(--amber-500);
   }
-  h1,h2,h3{font-family:'Manrope','Inter',sans-serif; font-weight:800; letter-spacing:-.02em; color:var(--text-dark);}
-  h2{font-size:clamp(28px,4vw,40px); margin-bottom:14px;}
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--amber-500); flex-shrink:0;}
+  h1,h2,h3{font-weight:800; letter-spacing:-.01em; color:var(--text-dark);}
+  h1,h2{font-family:var(--font-serif); font-weight:700;}
+  h3{font-family:var(--font-sans);}
+  h2{font-size:clamp(28px,4vw,42px); margin-bottom:14px;}
   .section-sub{color:var(--text-muted); font-size:17px; max-width:640px; margin-bottom:56px;}
   .center{text-align:center; margin-left:auto; margin-right:auto;}
+
+  /* ---------- LOGO / BIRD MARK ---------- */
+  /* Placeholder mark hand-built to evoke the Bluebird hummingbird logo.
+     Swap the <img class="brand-mark"> src for the real logo file once it's added to /assets. */
+  .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-serif); font-weight:700; font-size:21px;}
+  .brand-mark{width:30px; height:30px; flex-shrink:0;}
+  .logo-word1{color:#fff;}
+  .logo-word2{position:relative; color:var(--blue-400); font-weight:600; font-style:italic; padding:0 2px;}
+  .logo-word2::before{
+    content:""; position:absolute; left:-3px; right:-3px; bottom:1px; height:52%;
+    background:rgba(147,197,253,.28); z-index:-1; border-radius:2px;
+  }
+  .logo-dark .logo-word1{color:var(--text-dark);}
 
   /* ---------- NAV ---------- */
   header{
     position:sticky; top:0; z-index:100;
-    background:rgba(246,248,251,.85);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border);
+    background:var(--navy-950);
+    border-bottom:1px solid rgba(255,255,255,.08);
   }
   nav{
     display:flex; align-items:center; justify-content:space-between;
-    padding:16px 24px; max-width:1180px; margin:0 auto;
+    padding:14px 24px; max-width:1180px; margin:0 auto;
   }
-  .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; font-family:'Manrope',sans-serif;}
-  .logo .mark{
-    width:34px; height:34px; border-radius:9px;
-    background:linear-gradient(135deg, var(--blue-500), var(--navy-800));
-    display:flex; align-items:center; justify-content:center;
-    font-size:18px; box-shadow:var(--shadow-sm);
-  }
-  .nav-links{display:flex; gap:32px; font-size:15px; font-weight:500; color:var(--text-muted);}
-  .nav-links a:hover{color:var(--text-dark);}
+  .nav-links{display:none; gap:30px; font-size:14.5px; font-weight:500; color:#a7b6cc;}
+  @media (min-width:900px){ .nav-links{display:flex;} }
+  .nav-links a:hover{color:#fff;}
   .btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    padding:12px 22px; border-radius:999px; font-weight:700; font-size:15px;
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:12px 22px; border-radius:999px; font-weight:700; font-size:14.5px;
     cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-    white-space:nowrap;
+    white-space:nowrap; font-family:var(--font-sans);
   }
   .btn-primary{background:var(--amber-500); color:#241400; box-shadow:0 6px 18px rgba(245,166,35,.35);}
   .btn-primary:hover{background:var(--amber-400); transform:translateY(-1px);}
+  .btn-dark{background:#fff; color:var(--navy-950);}
+  .btn-dark:hover{background:#e8edf5; transform:translateY(-1px);}
   .btn-ghost{background:transparent; color:var(--text-dark); border:1.5px solid var(--border);}
   .btn-ghost:hover{border-color:var(--blue-500); color:var(--blue-500);}
   .btn-block{width:100%;}
   .nav-cta{display:none;}
-  @media (min-width:860px){ .nav-cta{display:inline-flex;} }
-  .nav-links{display:none;}
-  @media (min-width:860px){ .nav-links{display:flex;} }
-  .menu-btn{display:inline-flex; background:none; border:1.5px solid var(--border); border-radius:8px; padding:8px 10px;}
-  @media (min-width:860px){ .menu-btn{display:none;} }
+  @media (min-width:900px){ .nav-cta{display:inline-flex;} }
+  .menu-btn{display:inline-flex; background:none; border:1.5px solid rgba(255,255,255,.2); color:#fff; border-radius:8px; padding:8px 10px;}
+  @media (min-width:900px){ .menu-btn{display:none;} }
+  #mobileNav a{color:#d7e0ef;}
 
   /* ---------- HERO ---------- */
   .hero{
     position:relative;
-    background:radial-gradient(1200px 500px at 15% -10%, rgba(59,130,246,.18), transparent 60%),
-               radial-gradient(900px 500px at 90% 10%, rgba(245,166,35,.12), transparent 55%),
-               linear-gradient(180deg, var(--navy-950), var(--navy-900) 60%, var(--navy-800));
+    background:radial-gradient(1200px 500px at 10% -10%, rgba(47,124,246,.20), transparent 60%),
+               radial-gradient(900px 500px at 95% 15%, rgba(245,166,35,.10), transparent 55%),
+               linear-gradient(180deg, var(--navy-950), var(--navy-900) 55%, var(--navy-800));
     color:#fff;
-    padding:120px 0 100px;
+    padding:110px 0 120px;
     overflow:hidden;
   }
   .hero::after{
     content:"";
     position:absolute; inset:0;
-    background-image:radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
     background-size:26px 26px;
     mask-image:linear-gradient(180deg, rgba(0,0,0,.6), transparent 70%);
     pointer-events:none;
   }
-  .hero-inner{position:relative; z-index:1; max-width:760px;}
-  .hero .eyebrow{background:rgba(255,255,255,.1); color:var(--amber-400);}
-  .hero h1{color:#fff; font-size:clamp(34px,5.4vw,58px); line-height:1.08; margin-bottom:22px;}
-  .hero h1 span{color:var(--amber-400);}
-  .hero p.lead{color:#c7d4e6; font-size:18px; max-width:600px; margin-bottom:34px;}
-  .hero-actions{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:28px;}
-  .hero-trust{display:flex; align-items:center; gap:10px; color:#93a6c2; font-size:14px;}
-  .hero-trust svg{flex-shrink:0;}
-
-  .hero-stats{
+  .hero .container{
     position:relative; z-index:1;
-    display:grid; grid-template-columns:repeat(3,1fr);
-    gap:1px; background:rgba(255,255,255,.1);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:var(--radius-md);
-    margin-top:56px; overflow:hidden;
-    max-width:640px;
+    display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
   }
-  .hero-stats div{background:rgba(255,255,255,.03); padding:20px 18px;}
-  .hero-stats strong{display:block; font-size:22px; font-family:'Manrope',sans-serif; color:#fff;}
-  .hero-stats span{font-size:13px; color:#93a6c2;}
+  @media (max-width:960px){ .hero .container{grid-template-columns:1fr;} }
+
+  .hero h1{color:#fff; font-size:clamp(36px,5vw,56px); line-height:1.12; margin:20px 0 22px;}
+  .hero h1 em{
+    font-style:italic; color:var(--blue-400); position:relative; padding:0 6px;
+  }
+  .hero h1 em::before{
+    content:""; position:absolute; left:0; right:0; bottom:6px; height:38%;
+    background:rgba(47,124,246,.28); z-index:-1; border-radius:3px;
+  }
+  .hero p.lead{color:#c7d4e6; font-size:17.5px; max-width:520px; margin-bottom:32px;}
+  .hero-actions{display:flex; flex-wrap:wrap; align-items:center; gap:22px; margin-bottom:30px;}
+  .hero-actions .text-link{font-weight:700; font-size:14.5px; color:#fff; border-bottom:1.5px solid rgba(255,255,255,.35); padding-bottom:2px;}
+  .hero-actions .text-link:hover{border-color:var(--amber-400); color:var(--amber-400);}
+  .hero-trust{display:flex; align-items:center; gap:10px; color:#93a6c2; font-size:13.5px;}
+  .hero-trust svg{flex-shrink:0; color:var(--blue-400);}
+
+  /* ---------- HERO VISUAL (floating deal cards + bird watermark) ---------- */
+  .hero-visual{position:relative; min-height:420px; display:none;}
+  @media (max-width:960px){ .hero-visual{display:none;} }
+  @media (min-width:960px){ .hero-visual{display:block;} }
+
+  .deal-card{
+    position:absolute; width:230px; background:linear-gradient(160deg,#f3f6fb,#dbe4f0);
+    border-radius:14px; padding:18px 20px; box-shadow:0 20px 40px rgba(0,0,0,.35);
+    color:var(--text-dark);
+  }
+  .deal-card .tag{
+    display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.06em;
+    padding:3px 9px; border-radius:6px; margin-bottom:10px; text-transform:uppercase;
+  }
+  .deal-card .tag.new{background:rgba(47,124,246,.15); color:var(--blue-500);}
+  .deal-card .tag.hot{background:rgba(245,166,35,.18); color:#b5720f;}
+  .deal-card .label{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-soft); margin-bottom:4px;}
+  .deal-card .value{font-family:var(--font-serif); font-weight:700; font-size:19px; margin-bottom:12px;}
+  .deal-card .bar{height:7px; border-radius:4px; background:rgba(15,27,45,.12); margin-bottom:6px;}
+  .deal-card .bar.w70{width:70%;} .deal-card .bar.w45{width:45%;}
+
+  .card-1{top:0; right:40px; transform:rotate(-6deg); z-index:2;}
+  .card-2{top:150px; right:-10px; transform:rotate(4deg); z-index:1;}
+  .card-3{top:300px; right:70px; transform:rotate(-3deg); z-index:2;}
+
+  .bird-watermark{
+    position:absolute; top:90px; left:20px; width:280px; height:280px;
+    color:#fff; opacity:.97; filter:drop-shadow(0 10px 30px rgba(0,0,0,.4)); z-index:3;
+    transform:rotate(-8deg);
+  }
+
+  /* ---------- CHAT WIDGET ---------- */
+  .chat-widget{position:fixed; right:22px; bottom:22px; z-index:200; display:flex; flex-direction:column; align-items:flex-end; gap:12px;}
+  .chat-bubble{
+    background:var(--navy-900); color:#fff; border-radius:14px; padding:16px 18px 16px 16px;
+    max-width:260px; box-shadow:var(--shadow-lg); position:relative; font-size:13.5px; line-height:1.5;
+  }
+  .chat-bubble strong{display:block; margin-bottom:4px; font-size:14px;}
+  .chat-bubble .close-x{
+    position:absolute; top:8px; right:10px; background:rgba(255,255,255,.12); border:none; color:#c7d4e6;
+    width:20px; height:20px; border-radius:50%; font-size:12px; cursor:pointer; line-height:1;
+  }
+  .chat-fab{
+    width:52px; height:52px; border-radius:50%; background:var(--amber-500); color:#241400;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(245,166,35,.4);
+    border:none; cursor:pointer; font-size:20px;
+  }
+  .chat-fab:hover{background:var(--amber-400);}
+  .chat-widget.hidden .chat-bubble{display:none;}
 
   /* ---------- AUDIENCE ---------- */
-  .audience-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
-  }
+  .audience-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
   @media (max-width:900px){ .audience-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .audience-grid{grid-template-columns:1fr;} }
   .card{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:var(--radius-lg);
-    padding:28px 24px;
-    box-shadow:var(--shadow-sm);
-    transition:transform .18s ease, box-shadow .18s ease;
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:28px 24px; box-shadow:var(--shadow-sm); transition:transform .18s ease, box-shadow .18s ease;
   }
   .card:hover{transform:translateY(-4px); box-shadow:var(--shadow-md);}
   .card .icon{
-    width:46px; height:46px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, rgba(59,130,246,.15), rgba(59,130,246,.05));
+    width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(47,124,246,.15), rgba(47,124,246,.05));
     color:var(--blue-500); margin-bottom:16px; font-size:22px;
   }
   .card h3{font-size:18px; margin-bottom:8px;}
   .card p{color:var(--text-muted); font-size:14.5px;}
 
   /* ---------- HOW IT WORKS ---------- */
-  .steps{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:28px; position:relative;
-  }
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:28px; position:relative;}
   @media (max-width:900px){ .steps{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .steps{grid-template-columns:1fr;} }
   .step .num{
-    width:38px; height:38px; border-radius:50%;
-    background:var(--navy-900); color:#fff; font-weight:800; font-family:'Manrope',sans-serif;
-    display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-size:15px;
+    width:38px; height:38px; border-radius:50%; background:var(--navy-900); color:#fff; font-weight:800;
+    font-family:var(--font-serif); display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-size:15px;
   }
   .step h3{font-size:17px; margin-bottom:8px;}
   .step p{color:var(--text-muted); font-size:14.5px;}
-
   .how-section{background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
 
   /* ---------- WHY US ---------- */
-  .features{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:20px;
-  }
+  .features{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
   @media (max-width:700px){ .features{grid-template-columns:1fr;} }
-  .feature{
-    display:flex; gap:16px; padding:22px; border-radius:var(--radius-md);
-    background:var(--surface); border:1px solid var(--border);
-  }
+  .feature{display:flex; gap:16px; padding:22px; border-radius:var(--radius-md); background:var(--surface); border:1px solid var(--border);}
   .feature .icon{
-    width:42px; height:42px; flex-shrink:0; border-radius:10px;
-    background:rgba(245,166,35,.12); color:var(--amber-500);
+    width:42px; height:42px; flex-shrink:0; border-radius:10px; background:rgba(245,166,35,.12); color:var(--amber-500);
     display:flex; align-items:center; justify-content:center; font-size:19px;
   }
   .feature h3{font-size:16.5px; margin-bottom:5px;}
   .feature p{color:var(--text-muted); font-size:14px;}
 
   /* ---------- FORM ---------- */
-  .signup{
-    background:linear-gradient(160deg, var(--navy-900), var(--navy-800));
-    color:#fff; position:relative; overflow:hidden;
-  }
+  .signup{background:linear-gradient(160deg, var(--navy-900), var(--navy-800)); color:#fff; position:relative; overflow:hidden;}
   .signup::before{
     content:""; position:absolute; inset:0;
-    background:radial-gradient(700px 400px at 85% 20%, rgba(59,130,246,.25), transparent 60%);
+    background:radial-gradient(700px 400px at 85% 20%, rgba(47,124,246,.25), transparent 60%);
     pointer-events:none;
   }
-  .signup-wrap{
-    position:relative; z-index:1;
-    display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center;
-  }
+  .signup-wrap{position:relative; z-index:1; display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center;}
   @media (max-width:900px){ .signup-wrap{grid-template-columns:1fr;} }
   .signup h2{color:#fff;}
   .signup p.section-sub{color:#b9c6dc; margin-bottom:30px;}
@@ -230,23 +263,18 @@
   .signup-points li{display:flex; gap:10px; align-items:flex-start; color:#d7e0ef; font-size:14.5px;}
   .signup-points svg{flex-shrink:0; margin-top:2px; color:var(--amber-400);}
 
-  .form-card{
-    background:#fff; color:var(--text-dark);
-    border-radius:var(--radius-lg);
-    padding:32px; box-shadow:var(--shadow-lg);
-  }
-  .form-card h3{font-size:20px; margin-bottom:6px;}
+  .form-card{background:#fff; color:var(--text-dark); border-radius:var(--radius-lg); padding:32px; box-shadow:var(--shadow-lg);}
+  .form-card h3{font-size:20px; margin-bottom:6px; font-family:var(--font-serif);}
   .form-card .form-sub{color:var(--text-muted); font-size:14px; margin-bottom:22px;}
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--text-dark);}
   .field input, .field select{
-    width:100%; padding:12px 14px; border-radius:var(--radius-sm);
-    border:1.5px solid var(--border); font-size:15px; font-family:inherit;
-    background:#fbfcfe; color:var(--text-dark);
+    width:100%; padding:12px 14px; border-radius:var(--radius-sm); border:1.5px solid var(--border);
+    font-size:15px; font-family:inherit; background:#fbfcfe; color:var(--text-dark);
     transition:border-color .15s ease, box-shadow .15s ease;
   }
   .field input:focus, .field select:focus{
-    outline:none; border-color:var(--blue-500); box-shadow:0 0 0 3px rgba(59,130,246,.15); background:#fff;
+    outline:none; border-color:var(--blue-500); box-shadow:0 0 0 3px rgba(47,124,246,.15); background:#fff;
   }
   .field .error-msg{display:none; color:#dc2626; font-size:12.5px; margin-top:5px;}
   .field.invalid input, .field.invalid select{border-color:#dc2626;}
@@ -257,15 +285,12 @@
     width:56px; height:56px; border-radius:50%; background:rgba(34,197,94,.12); color:#16a34a;
     display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:26px;
   }
-  .success-box h3{margin-bottom:6px;}
+  .success-box h3{margin-bottom:6px; font-family:var(--font-serif);}
   .success-box p{color:var(--text-muted); font-size:14.5px;}
 
   /* ---------- FAQ ---------- */
   .faq-list{max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:12px;}
-  .faq-item{
-    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);
-    padding:0; overflow:hidden;
-  }
+  .faq-item{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden;}
   .faq-q{
     width:100%; text-align:left; padding:20px 22px; background:none; border:none; cursor:pointer;
     font-size:15.5px; font-weight:600; display:flex; justify-content:space-between; align-items:center;
@@ -282,7 +307,6 @@
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
     padding-bottom:28px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:24px;
   }
-  .footer-top .logo{color:#fff;}
   footer .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:13px;}
   footer a:hover{color:#fff;}
 
@@ -295,22 +319,23 @@
 <header>
   <nav>
     <a href="#top" class="logo">
-      <span class="mark">🐦</span> Bluebird Disposition
+      <svg class="brand-mark" viewBox="0 0 100 100" fill="var(--blue-400)"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+      <span class="logo-word1">Bluebird</span><span class="logo-word2">Disposition</span>
     </a>
     <ul class="nav-links">
       <li><a href="#audience">Who It's For</a></li>
       <li><a href="#how">How It Works</a></li>
-      <li><a href="#why">Why Us</a></li>
+      <li><a href="#why">Our Promise</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#signup" class="btn btn-primary nav-cta">Get Early Access</a>
+    <a href="#signup" class="btn btn-dark nav-cta">Get Early Access →</a>
     <button class="menu-btn" aria-label="menu" onclick="document.getElementById('mobileNav').classList.toggle('show')">☰</button>
   </nav>
   <div id="mobileNav" style="display:none;" class="container">
     <ul style="display:flex; flex-direction:column; gap:14px; padding:16px 0; font-weight:500;">
       <li><a href="#audience">Who It's For</a></li>
       <li><a href="#how">How It Works</a></li>
-      <li><a href="#why">Why Us</a></li>
+      <li><a href="#why">Our Promise</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#signup" class="btn btn-primary btn-block">Get Early Access</a></li>
     </ul>
@@ -321,23 +346,47 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="container hero-inner">
-      <div class="eyebrow">● Launching Soon — Founding Investor Access Open</div>
-      <h1>Off-market deals, delivered straight to <span>serious investors.</span></h1>
-      <p class="lead">Bluebird Disposition connects fix-and-flippers, BRRRR investors, and buy-and-hold landlords with discounted properties — before they ever hit the open market.</p>
-      <div class="hero-actions">
-        <a href="#signup" class="btn btn-primary">Reserve My Spot →</a>
-        <a href="#how" class="btn btn-ghost" style="border-color:rgba(255,255,255,.25); color:#fff;">See How It Works</a>
-      </div>
-      <div class="hero-trust">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-        No cost to join. No obligation to buy. Just first look at real deals.
+    <div class="container">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span> OFF-MARKET DEAL FLOW</div>
+        <h1>We find the deal.<br>You <em>keep the profit.</em></h1>
+        <p class="lead">Tired of the MLS, retail markups, and bidding wars? Bluebird Disposition delivers off-market, investor-ready properties straight to your inbox — priced for your strategy, not the open market.</p>
+        <div class="hero-actions">
+          <a href="#signup" class="btn btn-primary">Reserve My Spot →</a>
+          <a href="#how" class="text-link">See how it works →</a>
+        </div>
+        <div class="hero-trust">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          No cost to join. No obligation to buy. Just first look at real deals.
+        </div>
       </div>
 
-      <div class="hero-stats">
-        <div><strong>Fix &amp; Flip</strong><span>Priced for your margin</span></div>
-        <div><strong>BRRRR</strong><span>ARV &amp; rent math included</span></div>
-        <div><strong>Buy &amp; Hold</strong><span>Cash-flow ready rentals</span></div>
+      <div class="hero-visual">
+        <svg class="bird-watermark" viewBox="0 0 100 100" fill="#fff"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+
+        <div class="deal-card card-1">
+          <span class="tag new">New Listing</span>
+          <div class="label">Off-Market Deal</div>
+          <div class="value">412 Maple Ave</div>
+          <div class="bar w70"></div>
+          <div class="bar w45"></div>
+        </div>
+
+        <div class="deal-card card-2">
+          <span class="tag hot">ARV Estimate</span>
+          <div class="label">After Repair Value</div>
+          <div class="value">$285,000</div>
+          <div class="bar w70"></div>
+          <div class="bar w45"></div>
+        </div>
+
+        <div class="deal-card card-3">
+          <span class="tag new">Matched</span>
+          <div class="label">Investor Match</div>
+          <div class="value">Fix &amp; Flip · BRRRR</div>
+          <div class="bar w70"></div>
+          <div class="bar w45"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -345,8 +394,8 @@
   <!-- AUDIENCE -->
   <section id="audience">
     <div class="container">
-      <div class="eyebrow" style="color:var(--blue-500);">Built for every strategy</div>
-      <h2>Whatever your investing playbook, we've got deals for it.</h2>
+      <div class="eyebrow" style="color:var(--blue-500);"><span class="dot" style="background:var(--blue-500);"></span> Built for every strategy</div>
+      <h2 style="margin-top:14px;">Whatever your investing playbook, we've got deals for it.</h2>
       <p class="section-sub">From quick flips to lifelong portfolios — Bluebird Disposition sources properties that pencil out for how you actually invest.</p>
 
       <div class="audience-grid">
@@ -377,8 +426,8 @@
   <!-- HOW IT WORKS -->
   <section id="how" class="how-section">
     <div class="container">
-      <div class="eyebrow" style="color:var(--blue-500);">The process</div>
-      <h2>How Bluebird Disposition works</h2>
+      <div class="eyebrow" style="color:var(--blue-500);"><span class="dot" style="background:var(--blue-500);"></span> The process</div>
+      <h2 style="margin-top:14px;">How Bluebird Disposition works</h2>
       <p class="section-sub">Simple, fast, and built around getting you to a closing table — not a bidding war.</p>
 
       <div class="steps">
@@ -406,11 +455,11 @@
     </div>
   </section>
 
-  <!-- WHY US -->
+  <!-- WHY US / OUR PROMISE -->
   <section id="why">
     <div class="container">
-      <div class="eyebrow" style="color:var(--blue-500);">Why Bluebird</div>
-      <h2>Deal flow built for investors, not retail buyers</h2>
+      <div class="eyebrow" style="color:var(--blue-500);"><span class="dot" style="background:var(--blue-500);"></span> Our promise</div>
+      <h2 style="margin-top:14px;">Deal flow built for investors, not retail buyers</h2>
       <p class="section-sub">We cut out the noise of the MLS and bring you properties sourced directly from motivated sellers and wholesalers.</p>
 
       <div class="features">
@@ -439,7 +488,7 @@
     <div class="container signup-wrap">
       <div>
         <div class="eyebrow">Founding investor access</div>
-        <h2>Be first in line when we launch</h2>
+        <h2 style="margin-top:14px;">Be first in line when we launch</h2>
         <p class="section-sub">Founding members get free early access and first pick of deals in their market — before we open up to the public.</p>
         <ul class="signup-points">
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Free to join, always</li>
@@ -501,8 +550,8 @@
   <!-- FAQ -->
   <section id="faq">
     <div class="container">
-      <div class="eyebrow center" style="color:var(--blue-500); display:flex; justify-content:center;">Questions</div>
-      <h2 class="center">Frequently asked questions</h2>
+      <div class="eyebrow center" style="color:var(--blue-500); display:flex; justify-content:center;"><span class="dot" style="background:var(--blue-500);"></span> Questions</div>
+      <h2 class="center" style="margin-top:14px;">Frequently asked questions</h2>
       <p class="section-sub center">Everything you want to know before you sign up.</p>
 
       <div class="faq-list">
@@ -531,7 +580,10 @@
 <footer>
   <div class="container">
     <div class="footer-top">
-      <a href="#top" class="logo">🐦 Bluebird Disposition</a>
+      <a href="#top" class="logo">
+        <svg class="brand-mark" viewBox="0 0 100 100" fill="var(--blue-400)"><path d="M92 46c-11 -3 -20 -1 -26 4c1 -9 -2 -18 -9 -25c-8 -8 -19 -12 -19 -12s-1 12 4 22c-7 -3 -15 -3 -22 0c-9 4 -15 12 -15 12s9 4 18 3c-4 4 -6 9 -6 15c0 12 10 21 22 21c7 0 13 -3 17 -8c2 6 7 11 13 13c-6 1 -12 4 -16 9c0 0 8 3 16 1c-3 5 -4 11 -2 17c0 0 9 -4 13 -12c2 6 7 10 13 12c0 0 2 -9 -2 -17c7 1 13 -1 17 -6c0 0 -6 -6 -14 -7c6 -3 10 -8 11 -14c6 1 12 -1 16 -5c0 0 -6 -5 -13 -6c4 -3 6 -8 6 -13c0 -1 0 -2 0 -4z"/></svg>
+        <span class="logo-word1">Bluebird</span><span class="logo-word2">Disposition</span>
+      </a>
       <a href="#signup" class="btn btn-primary">Get Early Access</a>
     </div>
     <div class="foot-bottom">
@@ -540,6 +592,16 @@
     </div>
   </div>
 </footer>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-bubble" id="chatBubble">
+    <button class="close-x" id="chatClose" aria-label="Close">✕</button>
+    <strong>👋 Hi there!</strong>
+    Have questions about our deals? I can help — fast answers, no pressure.
+  </div>
+  <button class="chat-fab" id="chatFab" aria-label="Open chat">💬</button>
+</div>
 
 <script>
   // FAQ accordion
@@ -567,6 +629,15 @@
     });
   }, {threshold:.15});
   revealEls.forEach(function(el){ io.observe(el); });
+
+  // Chat widget toggle
+  var chatWidget = document.getElementById('chatWidget');
+  document.getElementById('chatClose').addEventListener('click', function(){
+    chatWidget.classList.add('hidden');
+  });
+  document.getElementById('chatFab').addEventListener('click', function(){
+    chatWidget.classList.toggle('hidden');
+  });
 
   // Form validation + submit
   var form = document.getElementById('waitlistForm');
